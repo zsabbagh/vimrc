@@ -1,0 +1,50 @@
+syntax on
+set backspace=indent,eol,start
+set nocompatible
+set noerrorbells
+set smartindent
+set nu
+set relativenumber
+set nowrap
+set smartcase
+set incsearch
+
+nnoremap <C-Del> dw
+nnoremap <D-b> dG<D-v>
+" Move between windows
+nnoremap <C-l> <C-w>l
+nnoremap <C-k> <C-w>k
+nnoremap <C-j> <C-w>j
+nnoremap <C-h> <C-w>h
+" Enlarge windows
+nnoremap <C-+> <C-w>+
+nnoremap <C--> <C-w>-
+" Change all except first character (Python)
+:nmap <C-x> I<ESC>lc$
+
+""" Folds
+set foldmethod=indent " Make folds based off of indentation
+" Save fold state
+au BufWinLeave * mkview
+au BufWinEnter * silent loadview
+set nofoldenable
+
+call plug#begin()
+Plug 'sirver/UltiSnips'
+Plug 'lervag/vimtex'
+    let g:tex_flavor='latex'
+    let g:vimtex_view_method='zathura'
+    let g:vimtex_quickfix_mode=0
+    " these two lines are for a separate plugin I use: https://github.com/KeitaNakamura/tex-conceal.vim
+    set conceallevel=1
+    let g:tex_conceal='abdmg'
+call plug#end()
+
+let _curfile = expand("%:t")
+if _curfile =~ "Makefile" || _curfile =~ "makefile" || _curfile =~ ".*\.mk"
+set noexpandtab
+else
+set expandtab
+set tabstop=4 softtabstop=4
+set shiftwidth=4
+endif
